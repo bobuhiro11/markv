@@ -1,0 +1,27 @@
+box:
+  id: golang
+build:
+  steps:
+    - wercker/setup-go-workspace:
+      package-dir: github.com/nmi/markv
+    - wercker/golint
+    - script:
+        name: go get
+        code: |
+          go get -u github.com/goreleaser/goreleaser
+          go get -u github.com/golang/dep/...
+          dep ensure -v
+    - script:
+        name: go build
+        code: |
+          go build ./...
+    - script:
+        name: go test
+        code: |
+          go test $(go list ./... | grep -v /vendor/) --cover
+    - script:
+        name: go lint
+        code: |
+          go get -u github.com/golang/lint/golint
+          go vet $(go list ./... | grep -v /vendor/)
+          golint $(go list ./... | grep -v /vendor/)
