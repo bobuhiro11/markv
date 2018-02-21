@@ -8,6 +8,7 @@ build:
     - script:
         name: go get
         code: |
+          go get -u github.com/mattn/goveralls
           go get -u github.com/goreleaser/goreleaser
           go get -u github.com/golang/dep/...
           dep ensure -v
@@ -19,6 +20,7 @@ build:
         name: go test
         code: |
           go test $(go list ./... | grep -v /vendor/) --cover
+          goveralls -repotoken $COVERALL_REPO_TOKEN
     - script:
         name: go lint
         code: |
