@@ -1,6 +1,6 @@
 builds:
   - binary: markv
-    main: cli/main.go
+    main: markv/main.go
     goos:
       - darwin
       - linux
